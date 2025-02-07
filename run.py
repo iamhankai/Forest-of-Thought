@@ -65,21 +65,5 @@ if __name__ == '__main__':
     }
 
     print(cmd_dict[args.mode])
-    # 构建完整的命令
-    command = f'export PYTHONIOENCODING=utf8; python {args.script}.py --dataset {args.dataset} --max_iter {args.max_iter} --model_path {new_directory}/ckpt/model --tree_nums {args.tree_nums} --model_type {args.model_type} --level {args.level} --dataset_filepath {args.dataset_filepath} --stop {args.stop} --base_mode {args.base_mode} --start_id {args.start_id} --end_id {args.end_id} 2>&1 | tee -a outputs/log-{args.dataset}{args.max_iter}-tree-{args.tree_nums}.txt'
-    if args.correct:
-        command = f'export PYTHONIOENCODING=utf8; python {args.script}.py --dataset {args.dataset} --max_iter {args.max_iter} --model_path {new_directory}/ckpt/model --tree_nums {args.tree_nums} --model_type {args.model_type} --level {args.level} --dataset_filepath {args.dataset_filepath} --correct --correct_threshold {args.correct_threshold}  --start_id {args.start_id} --end_id {args.end_id} 2>&1 | tee -a outputs/log-{args.dataset}{args.max_iter}-tree-{args.tree_nums}.txt'
-
-    # 将命令写入 run.sh 脚本文件
-    with open('run.sh', 'w') as file:
-        file.write(command)
     os.system(cmd_dict[args.mode])
-    # MathBlackBox
-    if 'sample' in args.mode:
-        outputs_file = f"s3://bucket-4031/bizhenni/projects/chain_of_thought/outputs/forest-of-thought/{args.s3_model_path}/{args.dataset.split('-')[0]}_{args.start_id}_{args.end_id}"
-    else:
-        outputs_file = f"s3://bucket-4031/bizhenni/projects/chain_of_thought/outputs/forest-of-thought/{args.s3_model_path}/{args.dataset.split('-')[0]}"
-    mox.file.copy_parallel(f'/home/ma-user/modelarts/user-job-dir/forest-of-thought/outputs', outputs_file)
-    print(f"results saved to {outputs_file}")
-    while(1):
-        time.sleep(10)
+
