@@ -17,7 +17,7 @@ We recommend the requirements as follows.
    pip install -r requirements.txt
    ```
 
-```
+
 2. **Set up a virtual environment and activate it:**
 
   	```shell
